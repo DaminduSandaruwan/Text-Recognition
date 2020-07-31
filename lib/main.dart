@@ -65,48 +65,52 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            isImageLoaded ? Center(
-              child: Container(
-                // color: Colors.black,
-                height: MediaQuery.of(context).size.height/2,
-                width: MediaQuery.of(context).size.width-10,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: FileImage(pickedImage),
-                    fit: BoxFit.contain,
+        child: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                isImageLoaded ? Center(
+                  child: Container(
+                    // color: Colors.black,
+                    height: MediaQuery.of(context).size.height/2,
+                    width: MediaQuery.of(context).size.width-10,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: FileImage(pickedImage),
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                ):
+                Container(),
+                SizedBox(height: 15,),
+                RaisedButton(
+                  child: Text(
+                    'Pick an Image',
+                  ),
+                  onPressed: (){
+                    pickImage();
+                  },
+                ),
+                RaisedButton(
+                  child: Text(
+                    'Recognize Text',
+                  ),
+                  onPressed: (){
+                    readText();
+                  },
+                ),
+                SizedBox(height: 15,),
+                Container(
+                  padding: EdgeInsets.all(15),
+                  child: Text(
+                    sentence,
                   ),
                 ),
-              ),
-            ):
-            Container(),
-            SizedBox(height: 15,),
-            RaisedButton(
-              child: Text(
-                'Pick an Image',
-              ),
-              onPressed: (){
-                pickImage();
-              },
+              ],
             ),
-            RaisedButton(
-              child: Text(
-                'Recognize Text',
-              ),
-              onPressed: (){
-                readText();
-              },
-            ),
-            SizedBox(height: 15,),
-            Container(
-              padding: EdgeInsets.all(15),
-              child: Text(
-                sentence,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

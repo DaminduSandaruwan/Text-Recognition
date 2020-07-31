@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,6 +42,20 @@ class _HomePageState extends State<HomePage> {
 
   }
 
+  Future readText() async{
+    FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(pickedImage);
+    TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
+    VisionText readText = await recognizeText.processImage(ourImage);
+
+    for(TextBlock block in readText.blocks){
+      for(TextLine line in block.lines){
+        for(TextElement word in line.elements){
+          print(word.text);
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,12 +77,21 @@ class _HomePageState extends State<HomePage> {
               ),
             ):
             Container(),
+            SizedBox(height: 15,),
             RaisedButton(
               child: Text(
                 'Pick an Image',
               ),
               onPressed: (){
                 pickImage();
+              },
+            ),
+            RaisedButton(
+              child: Text(
+                'Check',
+              ),
+              onPressed: (){
+                readText();
               },
             ),
           ],

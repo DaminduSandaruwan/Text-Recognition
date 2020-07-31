@@ -33,7 +33,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   firebase_ml_vision:
-  # image_picker: 0.4.12+1
+  image_picker: ^0.6.7+4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

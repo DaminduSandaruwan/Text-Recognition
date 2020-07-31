@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -27,6 +29,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  File pickedImage;
+  bool isImageLoaded = false;
+
+  Future pickImage() async{
+    var tempStore = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      pickedImage =tempStore;
+      isImageLoaded = true;
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,12 +48,26 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            isImageLoaded ? Center(
+              child: Container(
+                // color: Colors.black,
+                height: 200,
+                width: 200,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: FileImage(pickedImage),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ):
+            Container(),
             RaisedButton(
               child: Text(
                 'Pick an Image',
               ),
               onPressed: (){
-                
+                pickImage();
               },
             ),
           ],

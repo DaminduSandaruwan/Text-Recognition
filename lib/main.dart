@@ -32,6 +32,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   File pickedImage;
   bool isImageLoaded = false;
+  String sentence = "";
 
   Future pickImage() async{
     var tempStore = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future readText() async{
+    sentence ="";
     FirebaseVisionImage ourImage = FirebaseVisionImage.fromFile(pickedImage);
     TextRecognizer recognizeText = FirebaseVision.instance.textRecognizer();
     VisionText readText = await recognizeText.processImage(ourImage);
@@ -50,6 +52,9 @@ class _HomePageState extends State<HomePage> {
     for(TextBlock block in readText.blocks){
       for(TextLine line in block.lines){
         for(TextElement word in line.elements){
+          setState(() {
+            sentence= sentence + " " + word.text;
+          });          
           print(word.text);
         }
       }
@@ -93,6 +98,13 @@ class _HomePageState extends State<HomePage> {
               onPressed: (){
                 readText();
               },
+            ),
+            SizedBox(height: 15,),
+            Container(
+              padding: EdgeInsets.all(15),
+              child: Text(
+                sentence,
+              ),
             ),
           ],
         ),
